@@ -1,0 +1,20 @@
+# Fdb version 3
+["pdflatex"] 1541803575 "/Users/wangzheng/Documents/Phd/2018-2019 Fall/Visualization/CS6660VisProj/Peer Review/review.tex" "review.pdf" "review" 1541803576
+  "/Users/wangzheng/Documents/Phd/2018-2019 Fall/Visualization/CS6660VisProj/Peer Review/review.tex" 1541803575 3012 f9bd0d21a38a01f838032f4fe1081c3a ""
+  "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
+  "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1480098701 1324 c910af8c371558dc20f2d7822f66fe64 ""
+  "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1480098701 1288 655e228510b4c2a1abe905c368440826 ""
+  "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1480098733 32080 340ef9bf63678554ee606688e7b5339d ""
+  "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1480098733 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/base/article.cls" 1480098821 19821 310da678527a7dfe2a02c88af38079b7 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/base/size10.clo" 1480098821 8292 e897c12e1e886ce77fe26afc5d470886 ""
+  "/usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf" 1494087824 32646 eadc4ca26cdbe7105ac7c593aa8c4f72 ""
+  "/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1495593472 2350277 a699055bee05bf8a40b0504752487295 ""
+  "/usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt" 1496995298 4129591 c796efcb4daed309002ab2c818083227 ""
+  "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
+  "review.aux" 1541803576 1956 594a58b4185f50d8211115de493cc3ee ""
+  "review.tex" 1541803575 3012 f9bd0d21a38a01f838032f4fe1081c3a ""
+  (generated)
+  "review.aux"
+  "review.pdf"
+  "review.log"
