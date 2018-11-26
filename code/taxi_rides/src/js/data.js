@@ -288,6 +288,7 @@ class DataManager {
     }
 
     get_trip_data_by_loc_id(lid) {
+        lid -= 1;
         let trip_data = [];
         let start_slot = this.filter["start_slot"];
         let end_slot = this.filter["end_slot"];
