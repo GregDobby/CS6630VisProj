@@ -1,64 +1,14 @@
-class DataItem {
-    constructor(slot, num_loc) {
-        this.slot = slot;
-        this.num_loc = num_loc;
-        this.num_trip = Array(num_loc).fill(Array(num_loc).fill(0));
-        this.trip_time = Array(num_loc).fill(Array(num_loc).fill(0));
-        this.trip_dist = Array(num_loc).fill(Array(num_loc).fill(0));
-        // fare_amount	mta_tax	tolls_amount	tip_amount	total_amount	extra
-        this.fare_amount = Array(num_loc).fill(Array(num_loc).fill(0));
-        this.mta_tax = Array(num_loc).fill(Array(num_loc).fill(0));
-        this.tip_amount = Array(num_loc).fill(Array(num_loc).fill(0));
-        this.extra = Array(num_loc).fill(Array(num_loc).fill(0));
-        this.total_amount = Array(num_loc).fill(Array(num_loc).fill(0));
-
-        // supply & demand
-        this.supply = null;
-        this.demand = null;
-    }
-
-    add(row) {
-        pid = parseInt(row["pickup_location_id"]) - 1;
-        did = parseInt(row["dropoff_location_id"]) - 1;
-        time = parseInt(row["dropoff_t"]) - parseInt(row["pickup_t"]);
-        dist = parseFloat(row["trip_distance"]) || 0;
-
-        this.num_trip[pid][did]++;
-        this.trip_time[pid][did] += time;
-        this.trip_dist[pid][did] += dist;
-        this.fare_amount[pid][did] += parseFloat(row["fare_amount"]) || 0;
-        this.mta_tax[pid][did] += parseFloat(row["mta_tax"]) || 0;
-        this.tip_amount[pid][did] += parseFloat(row["tip_amount"]) || 0;
-        this.extra[pid][did] += parseFloat(row["extra"]) || 0;
-        this.total_amount[pid][did] += parseFloat(row["total_amount"]) || 0;
-    }
-
-    average() {
-        for (let i = 0; i < this.num_loc; i++) {
-            for (let j = 0; j < this.num_loc; j++) {
-                this.trip_time[i][j] /= this.num_trip[i][j];
-                this.trip_dist[i][j] /= this.num_trip[i][j];
-                this.fare_amount[i][j] /= this.num_trip[i][j];
-                this.mta_tax[i][j] /= this.num_trip[i][j];
-                this.tip_amount[i][j] /= this.num_trip[i][j];
-                this.extra[i][j] /= this.num_trip[i][j];
-                this.total_amount[i][j] /= this.num_trip[i][j];
-            }
-        }
-    }
-}
-
-
-
 class Map {
-    constructor(g_COM) {
-
-        // global components
-        this.COM = g_COM;
+    constructor() {
 
         this.margin = {
             v: 20,
             h: 20
+        };
+
+        this.legendDim = {
+            width: 500,
+            height: 30
         };
 
         let mapView = d3.select("#map-view");
@@ -67,19 +17,36 @@ class Map {
         this.svgWidth = boudingRect.width - this.margin.h;
         this.svgHeight = boudingRect.height - this.margin.v;
 
-        this.mapCanvas = mapView.append("svg")
+        this.mapViewSvg = mapView.append("svg")
             .style("width", this.svgWidth)
-            .style("height", this.svgHeight)
-            .append("g");
+            .style("height", this.svgHeight);
+
+
+
+        this.legend = this.mapViewSvg.append("g");
+
+
+        this.mapCanvas = this.mapViewSvg.append("g");
         this.pan_zoom_rect = this.mapCanvas.append("rect")
             .style("width", this.svgWidth)
             .style("height", this.svgHeight)
             .style("fill", "none")
             .style("pointer-events", "all");
-
+        // map json
         this.geojson = null;
-        this.zone_lookup = null;
+        // map projection
         this.projection = null;
+        // supply demand data
+        this.filtered_data = null;
+
+
+        // legend color scales
+        this.demandColorScale = null;
+        this.ySupplyColorScale = null;
+        this.gSupplyColorScale = null;
+        this.legendColorScale = null;
+        // legend axis scale
+        this.legendAxisScale = null;
     };
     // initlization
     async init() {
@@ -87,16 +54,6 @@ class Map {
         // load geojson
         this.geojson = await d3.json("../data/map_data/taxi_zone_geojson.json");
 
-        // load lookup table
-        // let lookup_csv= await d3.csv("../data/map_data/taxi _zone_lookup.csv");
-        // this.zone_lookup = {};
-        // lookup_csv.map(d=>{
-        //     that.zone_lookup[d["LocationID"]] = {
-        //         "borough" :  d["Borough"],
-        //         "zone" : d["Zone"],
-        //         "service_zone": d["service_zone"]
-        //     };
-        // });
         // projection
         this.projection = {
             center: [-74, 40.75],
@@ -116,51 +73,92 @@ class Map {
                 that.mapCanvas.attr("transform", d3.event.transform);
             });
         this.pan_zoom_rect.call(zoom);
+
+        // color scale
+        this.demandColorScale = d3.scaleLinear().range(["red", "brown"]).interpolate(d3.interpolateHcl).nice();
+        this.ySupplyColorScale = d3.scaleLinear().range(["steelblue", "yellow"]).interpolate(d3.interpolateHcl).nice();
+        this.gSupplyColorScale = d3.scaleLinear().range(["green", "brown"]).interpolate(d3.interpolateHcl).nice();
+
+        this.legendAxisScale = d3.scaleLinear().range([0, this.legendDim.width]).nice();
+
+
     };
+
     // update data
-    async update(filter) {
-        if (filter != null && filter != undefined) {
-
-        }
-    }
-
-    async load_data(date, start_slot, end_slot, type) {
-
+    update() {
+        let type = (g_COM["filter"].filter)["type"];
+        let avg_supply_demand = g_dataManager.get_avg_supply_demand();
         if (type["yellow"] == 1) {
-            // init data structure
-            let y_item_list = [];
-            for (let slot = start_slot; slot <= end_slot; slot++) {
-                y_item_list.append(new DataItem(slot, this.COM["cfg"]["num_loc"]));
+            if (type["supply"] == 1) {
+                this.filtered_data = avg_supply_demand["yellow"]["supply"];
+                this.legendColorScale = this.ySupplyColorScale;
+            } else if (type["demand"] == 1) {
+                this.filtered_data = avg_supply_demand["yellow"]["demand"];
+                this.legendColorScale = this.demandColorScale;
             }
-            // basic info
-            let ifilename = "../data/yellow/2018-10minutes/" + date.slice(3, 5) + "/" + date + ".csv";
-            let data = await d3.csv(ifilename);
-            data.forEach(d => {
-                let slot = parseInt(d["pickup_t"]);
-                if (slot >= start_slot && slot <= end_slot) {
-                    y_item_list[slot].add(d);
-                }
-            });
-            y_item_list.forEach(d => {
-                d.average();
-            });
-            // supply & demand
-            ifilename = "../data/yellow/2018-10minutes/" + date.slice(3, 5) + "-supply_demand/" + date + ".json";
-            data = await d3.json(ifilename);
-            for(let slot = start_slot; slot<=end_slot; slot++){
-                y_item_list[slot].supply = data["supply"][slot];
-                y_item_list[slot].demand = data["demand"][slot];
+        } else if (type["green"] == 1) {
+            if (type["supply"] == 1) {
+                this.filtered_data = avg_supply_demand["green"]["supply"];
+                this.legendColorScale = this.ySupplyColorScale;
+            } else if (type["demand"] == 1) {
+                this.filtered_data = avg_supply_demand["green"]["demand"];
+                this.legendColorScale = this.demandColorScale;
             }
-            // monthly & stat
+        }
+    };
 
+    render_legend() {
+        // clear
+        this.legend.selectAll("*").remove();
 
+        let gradient = this.legend.append("defs")
+            .append("linearGradient")
+            .attr("id", "gradient")
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "100%")
+            .attr("y2", "0%")
+            .attr("spreadMethod", "pad");
+
+        this.legend.append("rect")
+            .attr("width", this.legendDim.width)
+            .attr("height", this.legendDim.height)
+            .style("fill", "url(#gradient)");
+
+        let legendAxisGrp = this.legend.append("g")
+            .attr("transform", "translate(" + 0 + "," + this.legendDim.height + ")");
+
+        // update gradient
+        for (let i = 0; i <= 10; i++) {
+            let percent = (10 * i) + "%";
+            let value = this.legendAxisScale.invert(0.1 * i * this.legendDim.width);
+            let color = d3.rgb(this.legendColorScale(value));
+            let opacity = 0.2 + 0.08 * i;
+            gradient.append("stop")
+                .attr("offset", percent)
+                .attr("stop-color", color)
+                .attr("stop-opacity", opacity);
         }
 
+        // draw axis
+        let legendAxis = d3.axisBottom().scale(this.legendAxisScale);
+        legendAxisGrp.call(legendAxis);
     }
-
 
     // render view
     show() {
+        let that = this;
+        // config scales
+        let min_V = 0;
+        let max_V = d3.max(this.filtered_data);
+
+        this.legendColorScale.domain([min_V, max_V]);
+        this.legendAxisScale.domain([min_V, max_V]);
+        // draw map legend
+        this.render_legend();
+
+
+        // draw map paths
         let zoneGrps = this.mapCanvas.selectAll("g").data(this.geojson.features);
         zoneGrps.exit().remove();
         zoneGrps = zoneGrps.enter().append("g").merge(zoneGrps);
@@ -169,6 +167,12 @@ class Map {
 
         zoneGrps.append("path")
             .attr("d", pathGenerator)
+            .classed("zone", true)
+            .attr("fill", function (d) {
+                let id = d["properties"]["locationid"] - 1;
+                let value = that.filtered_data[id];
+                return that.legendColorScale(value);
+            })
             .on("mouseover", function (d) {
                 // show zone information
                 d3.select("#zone-id").html(d["properties"]["locationid"]);

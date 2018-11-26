@@ -1,7 +1,8 @@
 class Filter {
 
-    constructor(g_COM) {
+    constructor(g_COM, g_dataManager) {
         this.COM = g_COM;
+        this.dataManager = g_dataManager;
         // default filter
         this.filter = {
             'date': '01-01-2018',
@@ -9,7 +10,9 @@ class Filter {
             'end_slot': 1,
             'type': {
                 'yellow': 1,
-                'green': 0
+                'green': 0,
+                'supply': 1,
+                'demand': 0
             }
         };
     };
@@ -59,7 +62,9 @@ class Filter {
     };
 
     // apply filters
-    update() {
-
+    async update() {
+        await g_dataManager.load_data(this.filter);
+        g_COM.map.update();
+        g_COM.map.show();
     };
 }
