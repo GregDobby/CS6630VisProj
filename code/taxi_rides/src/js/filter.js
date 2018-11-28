@@ -7,7 +7,7 @@ class Filter {
         this.filter = {
             'date': '01-01-2018',
             'start_slot': 0,
-            'end_slot': 1,
+            'end_slot': 10,
             'type': {
                 'yellow': 1,
                 'green': 0,
@@ -64,6 +64,7 @@ class Filter {
     // apply filters
     async update() {
         await g_dataManager.load_data(this.filter);
+        console.log(this.filter);
         g_COM.map.update();
         g_COM.map.show();
     };

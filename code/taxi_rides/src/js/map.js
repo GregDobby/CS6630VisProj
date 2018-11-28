@@ -47,6 +47,8 @@ class Map {
         this.legendColorScale = null;
         // legend axis scale
         this.legendAxisScale = null;
+
+        this.stat_zone =null;
     };
     // initlization
     async init() {
@@ -179,9 +181,91 @@ class Map {
                 d3.select("#zone-name").html(d["properties"]["zone"]);
                 d3.select("#borough").html(d["properties"]["borough"]);
                 d3.select("#zone-chart").style("opacity", 1);
+
+
+
+                ///
+                let get_trip_data_by_loc_id = g_dataManager.get_trip_data_by_loc_id(d["properties"]["locationid"]);
+                //console.log(get_trip_data_by_loc_id[0]);
+                this.stat_zone = get_trip_data_by_loc_id[0].yellow.monthly_data;
+                //console.log(this.stat_zone);
+                //pie
+                let data = [
+            {
+                name: "extra",
+                value: math.mean(this.stat_zone.extra)
+            },
+            {
+                name: "fare_amount",
+                value: math.mean(this.stat_zone.fare_amount)
+            },
+            {
+                name: "mta_tax",
+                value: math.mean(this.stat_zone.mta_tax)
+            },
+            {
+                name: "tip_amount",
+                value: math.mean(this.stat_zone.tip_amount)
+            },
+            {
+                name: "tolls_amount",
+                value: math.mean(this.stat_zone.tolls_amount)
+            }
+        ];
+        let width = 300;
+        let height = 200;
+        let radius = Math.min(width, height) / 2 - 10;
+
+        let svg = d3.select("#zone-id").append('svg')
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        // A color scale for each of the slices
+        let color = d3.scaleOrdinal()
+            .range(['#b3e2cd',
+                '#fdcdac',
+                '#cbd5e8',
+                '#f4cae4',
+                '#e6f5c9']);
+
+        let pie = d3.pie();
+
+        pie.value(function (d) {
+            return d.value;
+        });
+        let pieData = pie(data);
+        //console.log('pieData:', pieData);
+
+        let arc = d3.arc();
+
+        arc.outerRadius(radius);
+        arc.innerRadius(0);
+
+        //console.log('first arc:', arc(pieData[0]));
+        let groups = svg.selectAll("g").data(pieData)
+            .enter()
+            .append("g");
+
+        groups.append("path")
+            .attr("d", arc)
+            .style("fill", d => color(d.data.name));
+        groups.append("text")
+            .text(d => d.data.name)
+            .attr("transform", d => "translate(" + arc.centroid(d) + ")")
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .style("font-size", "10px");
+
+
+
+
+
             })
             .on("mouseout", function (d) {
                 d3.select("#zone-chart").style("opacity", 0);
+                //d3.select("#zone-chart").selectAll("svg").remove();
             });
     };
 
