@@ -48,11 +48,13 @@ for year in years:
             df['pickup_t'] = (df['pickup_datetime'].astype(np.int64) - start) / 1e9 / 60 // n
             df['dropoff_t'] = (df['dropoff_datetime'].astype(np.int64) - start) / 1e9 / 60 // n
             
+            df['trip_time'] = (df['dropoff_datetime'].astype(np.int64) - start) / 1e9 / 60 - (df['pickup_datetime'].astype(np.int64) - start) / 1e9 / 60;
+            
             ofilename = './' + str(year)+ '-' + str(n) +'minutes/' + mm
             if not os.path.exists(ofilename):
                 os.makedirs(ofilename)
             ofilename += '/' + date.strftime('%d-%m-%Y') + '.csv'
-            headers = ['pickup_t', 'pickup_location_id', 'dropoff_t', 'dropoff_location_id', 'trip_distance', 'fare_amount', 'mta_tax', 'tolls_amount', 'tip_amount', 'total_amount', 'extra']
+            headers = ['pickup_t', 'pickup_location_id', 'dropoff_t', 'dropoff_location_id', 'trip_distance', 'fare_amount', 'mta_tax', 'tolls_amount', 'tip_amount', 'total_amount', 'extra', 'trip_time']
             df = df[headers]
             df.to_csv(ofilename, header=headers, index=False)
             print(ofilename + ' completed.')

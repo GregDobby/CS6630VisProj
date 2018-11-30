@@ -48,7 +48,7 @@ class DataItem {
     add(row) {
         let pid = parseInt(row["pickup_location_id"]) - 1;
         let did = parseInt(row["dropoff_location_id"]) - 1;
-        let time = parseInt(row["dropoff_t"]) - parseInt(row["pickup_t"]);
+        let time = parseFloat(row["trip_time"]);
         let dist = parseFloat(row["trip_distance"]) || 0;
 
         this.num_trip[pid][did]++;
@@ -196,7 +196,7 @@ class DataManager {
         let num_loc = g_COM["cfg"]["num_loc"];
         let data_item = new DataItem(slot, num_loc);
         let num_trip = data["num_trip"];
-        let trip_time = data["trip_time"];
+        let trip_time = data["trip_time_m"];
         let trip_dist = data["trip_dist"];
         let fare_amount = data['fare_amount'];
         let mta_tax = data['mta_tax'];
@@ -273,8 +273,8 @@ class DataManager {
                 }
             }
             for (let j = 0; j < num_loc; j++) {
-                avg_supply[j] /= num_slot;
-                avg_demand[j] /= num_slot;
+                avg_supply[j] = Math.ceil(avg_supply[j] / num_slot);
+                avg_demand[j] = Math.ceil(avg_demand[j] / num_slot);
             }
             green["supply"] = avg_supply;
             green["demand"] = avg_demand;
@@ -311,7 +311,9 @@ class DataManager {
                     "tolls_amount": daily_data.tolls_amount[lid],
                     "tip_amount": daily_data.tip_amount[lid],
                     "extra": daily_data.extra[lid],
-                    "total_amount": daily_data.total_amount[lid]
+                    "total_amount": daily_data.total_amount[lid],
+                    "supply": daily_data.supply,
+                    "demand": daily_data.demand
                 };
                 // monthly
                 yellow["monthly_data"] = {
@@ -342,7 +344,9 @@ class DataManager {
                     "tolls_amount": daily_data.tolls_amount[lid],
                     "tip_amount": daily_data.tip_amount[lid],
                     "extra": daily_data.extra[lid],
-                    "total_amount": daily_data.total_amount[lid]
+                    "total_amount": daily_data.total_amount[lid],
+                    "supply": daily_data.supply,
+                    "demand": daily_data.demand
                 };
                 // monthly
                 green["monthly_data"] = {
@@ -360,7 +364,7 @@ class DataManager {
 
             let e = {
                 "slot": slot,
-                "loc_id": lid,
+                "loc_id": lid + 1,
                 "yellow": yellow,
                 "green": green
             };
@@ -369,6 +373,29 @@ class DataManager {
         }
 
         return trip_data;
+    };
+
+    get_routes() {
+        let start_slot = this.filter["start_slot"];
+        let end_slot = this.filter["end_slot"];
+        let num_loc = g_COM["cfg"]["num_loc"];
+        let yellow_set = new Set();
+        let green_set = new Set;
+        for (let slot = start_slot, k = 0; slot <= end_slot; slot++, k++) {
+            for (let i = 0; i < num_loc; i++) {
+                for (let j = i; j < num_loc; j++) {
+                    if (this.trip_data["yellow"]["daily_data"][k]["num_trip"][i][j] > 0)
+                        yellow_set.add([i + 1, j + 1]);
+                    if (this.trip_data["green"]["daily_data"][k]["num_trip"][i][j] > 0)
+                        green_set.add([i + 1, j + 1]);
+                }
+            }
+        }
+
+        return {
+            "yellow": Array.from(yellow_set),
+            "green": Array.from(green_set)
+        };
     };
 };
 

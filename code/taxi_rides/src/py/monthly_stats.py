@@ -22,6 +22,7 @@ class Stat():
         self.trip_dist = [{} for x in range(num_loc)]
         # trip time
         self.trip_time = [{} for x in range(num_loc)]
+        self.trip_time_m = [{} for x in range(num_loc)]
         # number of trips
         self.num_trip = [{} for x in range(num_loc)]
         # trip cost
@@ -37,6 +38,7 @@ class Stat():
         pickup_id = int(row['pickup_location_id']) - 1
         dropoff_id = int(row['dropoff_location_id']) - 1
         trip_time = int(row['dropoff_t']) - int(row['pickup_t'])
+        trip_time_m = float(row['trip_time'])
         trip_dist = row['trip_distance']
         trip_cost = row['total_amount']
         fare_amount = row['fare_amount']
@@ -52,6 +54,7 @@ class Stat():
             self.trip_dist[pickup_id][dropoff_id] = 0
             self.trip_cost[pickup_id][dropoff_id] = 0
             self.trip_time[pickup_id][dropoff_id] = 0
+            self.trip_time_m[pickup_id][dropoff_id] = 0
             self.fare_amount[pickup_id][dropoff_id] = 0
             self.mta_tax[pickup_id][dropoff_id] = 0
             self.tolls_amount[pickup_id][dropoff_id] = 0
@@ -62,6 +65,7 @@ class Stat():
         self.trip_dist[pickup_id][dropoff_id] += trip_dist
         self.trip_cost[pickup_id][dropoff_id] += trip_cost
         self.trip_time[pickup_id][dropoff_id] += trip_time
+        self.trip_time_m[pickup_id][dropoff_id] += trip_time_m
         self.fare_amount[pickup_id][dropoff_id] += fare_amount
         self.mta_tax[pickup_id][dropoff_id] += mta_tax
         self.tolls_amount[pickup_id][dropoff_id] += tolls_amount
@@ -75,6 +79,7 @@ class Stat():
                 if self.num_trip[i][j] != 0:
                     self.trip_dist[i][j] = round(self.trip_dist[i][j] / self.num_trip[i][j], precision)
                     self.trip_time[i][j] //= self.num_trip[i][j]
+                    self.trip_time_m[i][j] /= self.num_trip[i][j]
                     self.trip_cost[i][j] = round(self.trip_cost[i][j] / self.num_trip[i][j], precision)
                     self.fare_amount[i][j] = round(self.fare_amount[i][j] / self.num_trip[i][j], precision)
                     self.mta_tax[i][j] = round(self.mta_tax[i][j]/ self.num_trip[i][j] , precision)

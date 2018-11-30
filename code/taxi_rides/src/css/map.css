@@ -1,15 +1,51 @@
 @charset "UTF-8";
-
-path.zone{
+path.zone {
     /* fill: gray; */
-    opacity: 0.7;
+    opacity: 1;
     stroke: white;
     stroke-width: 0.5px;
 }
 
-path.zone:hover{
+path.zone:hover {
     /* fill: blue; */
     opacity: 1;
+    stroke: violet;
+    stroke-width: 2px;
+}
+
+path.single-selection {
+    opacity: 1;
     stroke: red;
-    stroke-width: 0.8px;
+    stroke-width: 3px;
+}
+
+path.multiple-selection {
+    opacity: 1;
+    stroke: yellow;
+    stroke-width: 3px;
+}
+path.single-selection.multiple-selection{
+    opacity: 1;
+    stroke: salmon;
+    stroke-width: 5px;
+}
+line.route{
+    stroke: beige;
+    stroke-width: 2.5px;
+    stroke-dasharray: 20 10 10 10;
+    display: none;
+    pointer-events: none;
+}
+line.show{
+    display: inline-block;
+    opacity: 0.8;
+    pointer-events: auto;
+}
+line.show:hover{
+    opacity: 1;
+    stroke-width: 5px;
+    stroke: blueviolet;
+}
+line.select{
+    stroke: gainsboro;
 }

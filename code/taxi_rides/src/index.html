@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,16 @@
     <link rel="stylesheet" type="text/css" href="css/map.css">
     <link rel="stylesheet" type="text/css" href="css/stats.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+    <link rel="stylesheet" type="text/css" href="js/c3-0.6.9/c3.css">
+    <!-- load d3 -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
-
     <script src="https://d3js.org/d3-geo-projection.v2.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js"></script>
 
+    <!-- load c3 -->
+    <script src="js/c3-0.6.9/c3.min.js"></script>
+
+    <!-- load component js -->
     <script src="js/data.js"></script>
     <script src="js/map.js"></script>
     <script src="js/filter.js"></script>
@@ -24,13 +29,14 @@
     <title>Taxi Rides in New York City</title>
 
 </head>
+
 <body onload="init()">
     <div class="wrapper">
-        <div id = "filter-panel" class="overlay overlay-left">
+        <div id="filter-panel" class="overlay overlay-left">
             <div>
                 <h2>Filter</h2>
             </div>
-            
+
             <div id="filter-closebtn" class="button">&#8810;</div>
             <div>
                 <h3>Date & Time:</h3>
@@ -40,9 +46,12 @@
 
             <div>
                 <h3>Type:</h3>
-                <input type="checkbox"> Yellow <br>
-                <input type="checkbox"> Green <br>
-                <input type="checkbox"> Uber <br>
+                <input type="checkbox"> Yellow
+                <br>
+                <input type="checkbox"> Green
+                <br>
+                <input type="checkbox"> Uber
+                <br>
             </div>
 
             <div>
@@ -50,34 +59,54 @@
             </div>
         </div>
 
-        <div id = "zones-chart" class="overlay overlay-top">
+        <div id="zones-chart" class="overlay overlay-top">
             <div id="zones-chart-closebtn" class="button">&#8892;</div>
-            <div> Charts Here </div>
+            <div id="num_trip"></div>
+            <div id="finance"></div>
+            <div id="supply"></div>
+            <div id="demand"></div>
 
         </div>
 
-        <div id = "zone-chart" class="overlay">
+        <div id="zone-chart" class="overlay">
             <div id="zone-info">
-                <span id="zone-id"></span><br>
-                <span id="zone-name"></span><br>
-                <span id="borough"></span><br>
+                <span id="zone-id"></span>
+                <br>
+                <span id="zone-name"></span>
+                <br>
+                <span id="borough"></span>
+                <br>
                 <!-- <span id="service-zone"></span> -->
             </div>
+            <div id="zone-supply-demand">
+
+            </div>
+            <div id="zone-finance">
+                <div id="zone-finance-line"></div>
+                <div id="zone-finance-pie"></div>
+            </div>
         </div>
 
-        <div id = "main-view">
-            <div id="filter-button" class="button" >
-                <span><i class="fa fa-filter"></i></span>
+        <div id="main-view">
+            <div id="map-view"></div>
+
+
+            <div id="filter-button" class="button">
+                <span>
+                    <i class="fa fa-filter"></i>
+                </span>
             </div>
-           
-            <div id="map-view">
-                <!-- Map here. -->
+            <div id="charts-button" class="button">
+                <span>
+                    <i class="fa fa-bar-chart"></i>
+                </span>
             </div>
-             <div id="charts-button" class="button">
-                <span><i class="fa fa-bar-chart"></i></span>
+            <div id="route-info">
+
             </div>
         </div>
-        <div id = "tooltip"></div>
+        <div id="tooltip"></div>
     </div>
 </body>
+
 </html>
