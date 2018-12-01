@@ -28,6 +28,22 @@ class Filter {
             .on("click", function () {
                 that.hide();
             });
+
+        let num_slot = g_COM["cfg"]["num_slot"];
+        for(let i = 0; i < num_slot; i++){
+            let minutes = i * 10;
+            let hour = Math.floor(minutes / 60);
+            minutes = minutes % 60;
+            let text = minutes == 0? hour+":00" : hour+":" +minutes;
+            d3.select("#start-time")
+            .append("option")
+            .attr("value", i)
+            .html(text);
+            d3.select("#end-time")
+            .append("option")
+            .attr("value", i)
+            .html(text);
+        }
     };
 
     // show filter panel
