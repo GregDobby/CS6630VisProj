@@ -11,6 +11,8 @@ class Zones_Stat {
     d3.select("#charts-button")
       .on("click", function () {
         g_COM.filter.hide();
+        g_COM.zone_stat.hide();
+        g_COM.map.clear_selection();
         that.show(g_COM.map.multipleSelection);
       });
     d3.select("#zones-chart-closebtn")

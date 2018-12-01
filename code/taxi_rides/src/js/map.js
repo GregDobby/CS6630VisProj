@@ -449,10 +449,11 @@ class Map {
         this.draw_paths();
         // draw routes
         this.draw_routes();
-
-
-
     };
+    clear_selection(){
+        this.hide_route_info();
+        d3.selectAll("path").classed("single-selection", false).classed("multiple-selection", false);
+    }
 
 
 };
