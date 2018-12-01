@@ -71,13 +71,13 @@ div{
 #filter-button{
     /* position: absolute; */
     position: relative;
-    left: -40px;
+    left: -70px;
     border-radius: 5px;
     font-size: 30px;
     width: 120px;
     height: 50px;
     text-align: right;
-    top: 20%;
+    top: 25%;
 }
 #filter-button:hover{
     left: -30px;
@@ -118,7 +118,8 @@ div{
 #charts-button{
     position: absolute;
     top: 50%;
-    left: 5%;
+    left: 1%;
+    font-size: 40px;
 }
 
 #zones-chart-closebtn{
@@ -134,6 +135,10 @@ div{
     right: 0;
     width: 30%;
     height: 100%;
+}
+
+#zones-chart{
+    width: 100%;
 }
 
 
@@ -161,7 +166,7 @@ div{
 
 #route-inf{
     position: absolute;
-    left: 20%;
+    left: 15%;
     width: 40%;
     top: 22% ;
 }

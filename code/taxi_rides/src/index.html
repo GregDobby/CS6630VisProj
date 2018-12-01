@@ -72,15 +72,6 @@
             <input type="button" id="filter-apply" value="Apply" onclick="apply_filter()">
         </div>
 
-        <div id="zones-chart" class="overlay overlay-top">
-            <div id="zones-chart-closebtn" class="button">&#8892;</div>
-            <div id="num_trip"></div>
-            <div id="finance"></div>
-            <div id="supply"></div>
-            <div id="demand"></div>
-            <div id="chord"></div>
-        </div>
-
         <div id="zone-chart" class="overlay">
             <div id="zone-info">
                 <span id="zone-id"></span>
@@ -99,6 +90,38 @@
                 <div id="zone-finance-pie"></div>
             </div>
         </div>
+
+        <div id="zones-chart" class="overlay overlay-top">
+            <div id="zones-chart-closebtn" class="button">&#8892;</div>
+
+            <div id="num_trip-container">
+                <h2>Passenger & Taxi Match</h2>
+                <div id="num_trip"></div>
+            </div>
+
+            <div id="finance-container">
+                <h2>Zones' Finance</h2>
+                <div id="finance"></div>
+            </div>
+
+            <div id="supply-container">
+                <h2>Zones' Supply</h2>
+                <div id="supply"></div>
+            </div>    
+
+            <div id="demand-container">
+                <h2>Zones' Demand</h2>
+                <div id="demand"></div>
+            </div>  
+
+
+            <div id="chord-container">
+                <h2>Trips between  Zones</h2>
+                <div id="chord"></div>
+            </div> 
+        </div>
+
+        
 
         <div id="main-view">
             <div id="map-view"></div>

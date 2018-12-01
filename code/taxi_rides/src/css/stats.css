@@ -2,3 +2,54 @@
 
 
 
+#zones-chart-closebtn{
+    position: absolute;
+    top: 90% ;
+}
+
+
+#num_trip-container{
+    position: relative;
+    float: left;
+    height: 250;
+    width: 40%;
+}
+
+
+#finance-container{
+    position: relative;
+float: left;
+    height: 250;
+    width: 40%;
+}
+
+
+#supply-container{
+    position: relative;
+float: left;
+    height: 250;
+    width: 40%;
+}
+
+
+#demand-container{
+    position: relative;
+float: left;
+    height: 250;
+    width: 40%;
+}
+
+
+#chord-container{
+    position: relative;
+float: left;
+    height: 250;
+    width: 40%;
+}
+
+
+
+
+
+
+
