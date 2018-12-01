@@ -118,7 +118,6 @@ class DataManager {
             for (let slot = start_slot; slot <= end_slot; slot++) {
                 y_item_list.push(new DataItem(slot, g_COM["cfg"]["num_loc"]));
             }
-
             // basic info
             let ifilename = "../data/yellow/2018-10minutes/" + date.slice(3, 5) + "/" + date + ".csv";
             let data = await d3.csv(ifilename);
