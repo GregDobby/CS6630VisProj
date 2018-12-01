@@ -110,7 +110,7 @@ class Map {
                 this.legendColorScale = this.ySupplyColorScale;
             } else if (type["demand"] == 1) {
                 this.filtered_data = avg_supply_demand["yellow"]["demand"];
-                this.legendColorScale = this.demandColorScale;
+                this.legendColorScale = this.ySupplyColorScale;
             }
         } else if (type["green"] == 1) {
             if (type["supply"] == 1) {
@@ -118,7 +118,7 @@ class Map {
                 this.legendColorScale = this.ySupplyColorScale;
             } else if (type["demand"] == 1) {
                 this.filtered_data = avg_supply_demand["green"]["demand"];
-                this.legendColorScale = this.demandColorScale;
+                this.legendColorScale = this.ySupplyColorScale;
             }
         }
     };
