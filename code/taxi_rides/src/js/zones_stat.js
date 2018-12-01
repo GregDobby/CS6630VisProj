@@ -32,6 +32,8 @@ class Zones_Stat {
     for (let loc_id of selection) {
       data_list.push(g_dataManager.get_trip_data_by_loc_id(loc_id));
     }
+
+
     let header = this.get_header(selection);
     let num_trip = this.get_num_trip(data_list, header);
     let finance = this.get_finance(data_list, header);
@@ -42,8 +44,67 @@ class Zones_Stat {
     this.draw_finance(finance);
     this.draw_supply(supply);
     this.draw_demand(demand);
-
+    this.draw_chord(data_list);
   };
+
+
+  draw_chord(data_list) {
+    let outerRadius = 300;
+    let innerRadius = 200;
+    let color = d3.scaleOrdinal(d3.schemeCategory10);
+    let ribbon = d3.ribbon()
+      .radius(innerRadius);
+    let arc = d3.arc()
+      .innerRadius(innerRadius)
+      .outerRadius(innerRadius + 20);
+    let chord = d3.chord()
+      .padAngle(.04)
+      .sortSubgroups(d3.descending)
+      .sortChords(d3.descending);
+    let data = this.get_trip_matrix(data_list);
+    let chords = chord(data.matrix);
+    // clear
+    d3.select("#chord").selectAll("*").remove();
+    let svg = d3.select("#chord").append("svg").attr("width", 800).attr("height", 800);
+    let group = svg.append("g")
+    .attr("transform", "translate(400,400)")
+      .selectAll("g")
+      .data(chords.groups)
+      .enter().append("g");
+
+    group.append("path")
+      .attr("fill", d => color(d.index))
+      .attr("stroke", d => color(d.index))
+      .attr("d", arc);
+
+    group.append("text")
+      .each(d => {
+        d.angle = (d.startAngle + d.endAngle) / 2;
+      })
+      .attr("dy", ".35em")
+      .attr("transform", d => `
+        rotate(${(d.angle * 180 / Math.PI - 90)})
+        translate(${innerRadius + 26})
+        ${d.angle > Math.PI ? "rotate(180)" : ""}
+      `)
+      .attr("text-anchor", d => d.angle > Math.PI ? "end" : null)
+      .text(d => g_COM.map.id2name[data.ids[d.index]]);
+
+      // console.log(chords);
+    svg.append("g")
+    .attr("transform", "translate(400,400)")
+      .attr("fill-opacity", 0.67)
+      .selectAll("path")
+      .data(chords)
+      .enter().append("path")
+      .attr("stroke", d => d3.rgb(color(d.source.index)).darker())
+      .attr("fill", d => color(d.source.index))
+      .attr("d", ribbon)
+      .attr("class", function(d){
+        console.log(d)
+        return "";
+      });
+  }
 
   draw_num_trip(num_trip) {
     c3.generate({
@@ -118,7 +179,7 @@ class Zones_Stat {
         },
         y: {
           show: true,
-          tick:{
+          tick: {
             format: d3.format("$")
           }
         }
@@ -133,8 +194,8 @@ class Zones_Stat {
     });
   };
 
-  draw_supply(supply){
-     c3.generate({
+  draw_supply(supply) {
+    c3.generate({
       bindto: "#supply",
       size: {
         width: 700,
@@ -172,8 +233,8 @@ class Zones_Stat {
     });
   };
 
-  draw_demand(demand){
-     c3.generate({
+  draw_demand(demand) {
+    c3.generate({
       bindto: "#demand",
       size: {
         width: 700,
@@ -302,6 +363,35 @@ class Zones_Stat {
       chart_data.push(row);
     }
     return chart_data;
+  };
+
+  get_trip_matrix(data_list) {
+    let num_loc = data_list.length;
+    // get loc id
+    let ids = [];
+    for (let i = 0; i < num_loc; i++)
+      ids.push(data_list[i][0]["loc_id"]);
+    let type = g_COM.filter.filter["type"];
+    let num_slot = g_COM.filter.filter["end_slot"] - g_COM.filter.filter["start_slot"] + 1;
+    let matrix = [];
+    for (let i = 0; i < num_loc; i++) {
+      let row = Array(num_loc).fill(0);
+      for (let j = 0; j < num_loc; j++) {
+        for (let k = 0; k < num_slot; k++) {
+          if (type["yellow"])
+            row[j] += data_list[i][k]["yellow"]["daily_data"]["num_trip"][ids[j]];
+          else
+            row[j] += data_list[i][k]["green"]["daily_data"]["num_trip"][ids[j]];
+        }
+      }
+      matrix.push(row);
+    }
+
+    return {
+      matrix,
+      ids
+    };
+
   };
 
 

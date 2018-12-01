@@ -118,13 +118,14 @@ class DataManager {
             for (let slot = start_slot; slot <= end_slot; slot++) {
                 y_item_list.push(new DataItem(slot, g_COM["cfg"]["num_loc"]));
             }
+
             // basic info
             let ifilename = "../data/yellow/2018-10minutes/" + date.slice(3, 5) + "/" + date + ".csv";
             let data = await d3.csv(ifilename);
             data.forEach(d => {
                 let slot = parseInt(d["pickup_t"]);
                 if (slot >= start_slot && slot <= end_slot) {
-                    y_item_list[slot].add(d);
+                    y_item_list[slot-start_slot].add(d);
                 }
             });
             y_item_list.forEach(d => {
@@ -134,8 +135,8 @@ class DataManager {
             ifilename = "../data/yellow/2018-10minutes/" + date.slice(3, 5) + "-supply_demand/" + date + ".json";
             data = await d3.json(ifilename);
             for (let slot = start_slot; slot <= end_slot; slot++) {
-                y_item_list[slot].supply = data["supply"][slot];
-                y_item_list[slot].demand = data["demand"][slot];
+                y_item_list[slot-start_slot].supply = data["supply"][slot];
+                y_item_list[slot-start_slot].demand = data["demand"][slot];
             }
             // monthly & stat
             for (let slot = start_slot; slot <= end_slot; slot++) {
@@ -158,7 +159,7 @@ class DataManager {
             data.forEach(d => {
                 let slot = parseInt(d["pickup_t"]);
                 if (slot >= start_slot && slot <= end_slot) {
-                    g_item_list[slot].add(d);
+                    g_item_list[slot-start_slot].add(d);
                 }
             });
             g_item_list.forEach(d => {
@@ -168,8 +169,8 @@ class DataManager {
             ifilename = "../data/green/2018-10minutes/" + date.slice(3, 5) + "-supply_demand/" + date + ".json";
             data = await d3.json(ifilename);
             for (let slot = start_slot; slot <= end_slot; slot++) {
-                g_item_list[slot].supply = data["supply"][slot];
-                g_item_list[slot].demand = data["demand"][slot];
+                g_item_list[slot-start_slot].supply = data["supply"][slot];
+                g_item_list[slot-start_slot].demand = data["demand"][slot];
             }
             // monthly stat
             for (let slot = start_slot; slot <= end_slot; slot++) {

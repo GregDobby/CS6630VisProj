@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/map.css">
     <link rel="stylesheet" type="text/css" href="css/stats.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
     <link rel="stylesheet" type="text/css" href="js/c3-0.6.9/c3.css">
     <!-- load d3 -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -47,23 +48,28 @@
             <div id="filter-closebtn" class="button">&#8810;</div>
             <div>
                 <h3>Date & Time:</h3>
-                <input type="datetime-local">
-                <input type="datetime-local">
+                Date: <input id="filter-date" type="date"> <br>
+                Start Time: <select id="start-time"></select> <br>
+                End Time:<select id="end-time"></select> <br>
             </div>
 
             <div>
-                <h3>Type:</h3>
-                <input type="checkbox"> Yellow
-                <br>
-                <input type="checkbox"> Green
-                <br>
-                <input type="checkbox"> Uber
-                <br>
+                <h3>Cab Type:</h3>
+                <form>
+                    <input type="radio" name="cab-type" value="yellow" id="radio-yellow" checked> Yellow
+                    <br>
+                    <input type="radio" name="cab-type" value="green" id="radio-green"> Green
+                    <br>
+                </form>
+                <h3>Data Type:</h3>
+                <form>
+                    <input type="radio" name="data-type" value="yellow" id="radio-supply" checked> Supply
+                    <br>
+                    <input type="radio" name="data-type" value="green" id="radio-demand"> Demand
+                    <br>
+                </form>
             </div>
-
-            <div>
-                <h3>Selected Zone(s):</h3>
-            </div>
+            <input type="button" id="filter-apply" value="Apply" onclick="apply_filter()">
         </div>
 
         <div id="zones-chart" class="overlay overlay-top">
@@ -72,7 +78,7 @@
             <div id="finance"></div>
             <div id="supply"></div>
             <div id="demand"></div>
-
+            <div id="chord"></div>
         </div>
 
         <div id="zone-chart" class="overlay">
