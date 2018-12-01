@@ -62,6 +62,7 @@ class Zones_Stat {
       .sortSubgroups(d3.descending)
       .sortChords(d3.descending);
     let data = this.get_trip_matrix(data_list);
+    console.log(data);
     let chords = chord(data.matrix);
     // clear
     d3.select("#chord").selectAll("*").remove();
@@ -99,11 +100,7 @@ class Zones_Stat {
       .enter().append("path")
       .attr("stroke", d => d3.rgb(color(d.source.index)).darker())
       .attr("fill", d => color(d.source.index))
-      .attr("d", ribbon)
-      .attr("class", function(d){
-        console.log(d)
-        return "";
-      });
+      .attr("d", ribbon);
   }
 
   draw_num_trip(num_trip) {

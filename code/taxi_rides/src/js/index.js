@@ -34,8 +34,8 @@ async function apply_filter() {
   let demand = document.getElementById("radio-demand").checked ? 1 : 0;
   g_COM.filter.filter = {
     'date': date,
-    'start_slot': start_slot,
-    'end_slot': end_slot,
+    'start_slot': parseInt(start_slot),
+    'end_slot': parseInt(end_slot),
     'type': {
       'yellow': yellow,
       'green': green,
