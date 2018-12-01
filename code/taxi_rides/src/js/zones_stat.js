@@ -51,8 +51,8 @@ class Zones_Stat {
 
 
   draw_chord(data_list) {
-    let outerRadius = 300;
-    let innerRadius = 200;
+    let outerRadius = 150;
+    let innerRadius = 100;
     let color = d3.scaleOrdinal(d3.schemeCategory10);
     let ribbon = d3.ribbon()
       .radius(innerRadius);
@@ -68,9 +68,9 @@ class Zones_Stat {
     let chords = chord(data.matrix);
     // clear
     d3.select("#chord").selectAll("*").remove();
-    let svg = d3.select("#chord").append("svg").attr("width", 800).attr("height", 800);
+    let svg = d3.select("#chord").append("svg").attr("width", 400).attr("height", 400);
     let group = svg.append("g")
-    .attr("transform", "translate(400,400)")
+    .attr("transform", "translate(200,200)")
       .selectAll("g")
       .data(chords.groups)
       .enter().append("g");
@@ -95,7 +95,7 @@ class Zones_Stat {
 
       // console.log(chords);
     svg.append("g")
-    .attr("transform", "translate(400,400)")
+    .attr("transform", "translate(200,200)")
       .attr("fill-opacity", 0.67)
       .selectAll("path")
       .data(chords)

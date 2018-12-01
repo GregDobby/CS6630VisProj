@@ -72,9 +72,28 @@
             <input type="button" id="filter-apply" value="Apply" onclick="apply_filter()">
         </div>
 
+        <div id="zone-chart" class="overlay">
+            <div id="zone-info">
+                <span id="zone-id"></span>
+                <br>
+                <span id="zone-name"></span>
+                <br>
+                <span id="borough"></span>
+                <br>
+                <!-- <span id="service-zone"></span> -->
+            </div>
+            <div id="zone-supply-demand">
+
+            </div>
+            <div id="zone-finance">
+                <div id="zone-finance-line"></div>
+                <div id="zone-finance-pie"></div>
+            </div>
+        </div>
+
         <div id="zones-chart" class="overlay overlay-top">
             <div id="zones-chart-closebtn" class="button">&#8892;</div>
-            
+
             <div id="num_trip-container">
                 <h2>Passenger & Taxi Match</h2>
                 <div id="num_trip"></div>
@@ -102,24 +121,7 @@
             </div> 
         </div>
 
-        <div id="zone-chart" class="overlay">
-            <div id="zone-info">
-                <span id="zone-id"></span>
-                <br>
-                <span id="zone-name"></span>
-                <br>
-                <span id="borough"></span>
-                <br>
-                <!-- <span id="service-zone"></span> -->
-            </div>
-            <div id="zone-supply-demand">
-
-            </div>
-            <div id="zone-finance">
-                <div id="zone-finance-line"></div>
-                <div id="zone-finance-pie"></div>
-            </div>
-        </div>
+        
 
         <div id="main-view">
             <div id="map-view"></div>

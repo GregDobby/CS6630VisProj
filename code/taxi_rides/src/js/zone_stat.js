@@ -38,8 +38,8 @@ class Zone_Stat {
         let chart = c3.generate({
             bindto: "#zone-supply-demand",
             size:{
-                width: 550,
-                height: 200
+                width: 400,
+                height: 180
             },
             data: {
                 json: supply_demand,
@@ -101,8 +101,8 @@ class Zone_Stat {
         // draw total amount trend
         let linechart = c3.generate({
             size:{
-                width: 700,
-                height: 250
+                width: 400,
+                height: 180
             },
             bindto: "#zone-finance-line",
             data: {
