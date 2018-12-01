@@ -137,6 +137,10 @@ div{
     height: 100%;
 }
 
+#zones-chart{
+    width: 100%;
+}
+
 
 #main-view {
     position: fixed;

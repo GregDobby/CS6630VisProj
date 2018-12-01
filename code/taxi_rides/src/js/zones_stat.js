@@ -110,8 +110,8 @@ class Zones_Stat {
     c3.generate({
       bindto: "#num_trip",
       size: {
-        width: 700,
-        height: 250
+        width: 400,
+        height: 200
       },
       data: {
         x: "slot",
@@ -149,8 +149,8 @@ class Zones_Stat {
     c3.generate({
       bindto: "#finance",
       size: {
-        width: 700,
-        height: 250
+        width: 400,
+        height: 200
       },
       data: {
         x: "slot",
@@ -198,8 +198,8 @@ class Zones_Stat {
     c3.generate({
       bindto: "#supply",
       size: {
-        width: 700,
-        height: 250
+        width: 400,
+        height: 200
       },
       data: {
         x: "slot",
@@ -237,8 +237,8 @@ class Zones_Stat {
     c3.generate({
       bindto: "#demand",
       size: {
-        width: 700,
-        height: 250
+        width: 400,
+        height: 200
       },
       data: {
         x: "slot",
