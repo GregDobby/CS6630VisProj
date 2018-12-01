@@ -283,25 +283,24 @@ class Map {
                         that.hide_route_info();
                 })
                 .on("click", function () {
-                    
-                    if (that.routeSelection[0] == 0) {
-                        that.show_route_info(d[0], d[1]);
-                        that.routeSelection[0] = Math.min(d[0], d[1]);
-                        that.routeSelection[1] = d[0] + d[1] - that.routeSelection[0];
-                        d3.select("#loc"+that.routeSelection[0]+"-"+that.routeSelection[1]).classed("select",true);
-                    } else {
-                        that.hide_route_info();
-                         d3.select("#loc"+that.routeSelection[0]+"-"+that.routeSelection[1]).classed("select",false);
-                        if (that.routeSelection[0] == Math.min(d[0], d[1]) && that.routeSelection[1] == Math.max(d[0], d[1])) {
-                            that.routeSelection = [0 ,0];
-                        } else {
-                            that.show_route_info(d[0], d[1]);
-                            that.routeSelection[0] = Math.min(d[0], d[1]);
-                            that.routeSelection[1] = d[0] + d[1] - that.routeSelection[0];
-                            d3.select("#loc"+that.routeSelection[0]+"-"+that.routeSelection[1]).classed("select",true);
-                        }
+                    // if (that.routeSelection[0] == 0) {
+                    //     that.show_route_info(d[0], d[1]);
+                    //     that.routeSelection[0] = Math.min(d[0], d[1]);
+                    //     that.routeSelection[1] = d[0] + d[1] - that.routeSelection[0];
+                    //     d3.select("#loc"+that.routeSelection[0]+"-"+that.routeSelection[1]).classed("select",true);
+                    // } else {
+                    //     that.hide_route_info();
+                    //      d3.select("#loc"+that.routeSelection[0]+"-"+that.routeSelection[1]).classed("select",false);
+                    //     if (that.routeSelection[0] == Math.min(d[0], d[1]) && that.routeSelection[1] == Math.max(d[0], d[1])) {
+                    //         that.routeSelection = [0 ,0];
+                    //     } else {
+                    //         that.show_route_info(d[0], d[1]);
+                    //         that.routeSelection[0] = Math.min(d[0], d[1]);
+                    //         that.routeSelection[1] = d[0] + d[1] - that.routeSelection[0];
+                    //         d3.select("#loc"+that.routeSelection[0]+"-"+that.routeSelection[1]).classed("select",true);
+                    //     }
 
-                    }
+                    // }
                 });
         });
 
@@ -451,8 +450,8 @@ class Map {
         this.draw_routes();
     };
     clear_selection(){
-        this.hide_route_info();
-        d3.selectAll("path").classed("single-selection", false).classed("multiple-selection", false);
+        // this.hide_route_info();
+        // d3.selectAll("path").classed("single-selection", false).classed("multiple-selection", false);
     }
 
 
