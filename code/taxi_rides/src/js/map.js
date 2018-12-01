@@ -334,14 +334,14 @@ class Map {
 
         d3.select("#route-inf").selectAll("*").remove();
 
-        d3.select("#route-inf").append("li").attr("style","font-size: 3px; font-weight:bold;").html(" Connection: " + loc1 + " to " + loc2);
-        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Distance: " + d12.toFixed(3));
-        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Time: " + t12.toFixed(3));
-        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Money: " + m12.toFixed(3));
-        d3.select("#route-inf").append("li").attr("style","font-size: 3px; font-weight:bold;").html(" Connection: " + loc2 + " to " + loc1);
-        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Distance: " + d21.toFixed(3));
-        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Time: " + t21.toFixed(3));
-        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Money: " + m21.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 12px; font-weight:bold;").html(" Connection: " + loc1 + " to " + loc2);
+        d3.select("#route-inf").append("li").attr("style","font-size: 12px; list-style-type:circle").html(" Distance: " + d12.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 12px; list-style-type:circle").html(" Time: " + t12.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 12px; list-style-type:circle").html(" Money: " + m12.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 12px; font-weight:bold;").html(" Connection: " + loc2 + " to " + loc1);
+        d3.select("#route-inf").append("li").attr("style","font-size: 12px; list-style-type:circle").html(" Distance: " + d21.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 12px; list-style-type:circle").html(" Time: " + t21.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 12px; list-style-type:circle").html(" Money: " + m21.toFixed(3));
 
 
 
