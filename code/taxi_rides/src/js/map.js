@@ -72,7 +72,7 @@ class Map {
         }
         // projection
         this.projection = {
-            center: [-74.1, 40.72],
+            center: [-74.08, 40.7],
             scale: 70000,
             projGenerator: d3.geoMercator(),
             get_projection: function () {
@@ -90,9 +90,9 @@ class Map {
         //     });
         // this.pan_zoom_rect.call(zoom);
 
-        // color scale
+        // color scale#c9d6fc
         this.demandColorScale = d3.scaleLinear().range(["red", "brown"]).interpolate(d3.interpolateHcl).nice();
-        this.ySupplyColorScale = d3.scaleLinear().range(["steelblue", "yellow"]).interpolate(d3.interpolateHcl).nice();
+        this.ySupplyColorScale = d3.scaleLinear().range(["#d8e2fc", "#7390df"]).interpolate(d3.interpolateRgb).nice();
         this.gSupplyColorScale = d3.scaleLinear().range(["green", "brown"]).interpolate(d3.interpolateHcl).nice();
 
         this.legendAxisScale = d3.scaleLinear().range([0, this.legendDim.width]).nice();
@@ -349,8 +349,22 @@ class Map {
         d21 /= num_slot;
         t21 /= num_slot;
         m21 /= num_slot;
-        d3.select("#route-info").append("span").html(d12 + " " + t12 + " " + m12);
-        d3.select("#route-info").append("span").html(d21 + " " + t21 + " " + m21);
+
+        d3.select("#route-inf").selectAll("*").remove();
+
+        d3.select("#route-inf").append("li").attr("style","font-size: 3px; font-weight:bold;").html(" Connection: " + loc1 + " to " + loc2);
+        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Distance: " + d12.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Time: " + t12.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Money: " + m12.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 3px; font-weight:bold;").html(" Connection: " + loc2 + " to " + loc1);
+        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Distance: " + d21.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Time: " + t21.toFixed(3));
+        d3.select("#route-inf").append("li").attr("style","font-size: 3px; list-style-type:circle").html(" Money: " + m21.toFixed(3));
+
+
+
+
+
         // let chart = c3.generate({
         //     size: {
         //         width: 500,

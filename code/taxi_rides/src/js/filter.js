@@ -7,7 +7,7 @@ class Filter {
         this.filter = {
             'date': '01-01-2018',
             'start_slot': 0,
-            'end_slot': 30,
+            'end_slot': 20,
             'type': {
                 'yellow': 1,
                 'green': 0,

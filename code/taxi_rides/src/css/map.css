@@ -15,7 +15,7 @@ path.zone:hover {
 
 path.single-selection {
     opacity: 1;
-    stroke: red;
+    stroke: #ff4c4c;
     stroke-width: 3px;
 }
 
@@ -30,8 +30,8 @@ path.single-selection.multiple-selection{
     stroke-width: 5px;
 }
 line.route{
-    stroke: beige;
-    stroke-width: 2.5px;
+    stroke: #9e51ff;
+    stroke-width: 1.5px;
     stroke-dasharray: 20 10 10 10;
     display: none;
     pointer-events: none;

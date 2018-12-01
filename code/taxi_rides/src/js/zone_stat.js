@@ -14,10 +14,11 @@ class Zone_Stat {
 
     show(d) {
         let loc_id = d["properties"]["locationid"];
-        d3.select("#zone-id").html(loc_id);
-        d3.select("#zone-name").html(d["properties"]["zone"]);
-        d3.select("#borough").html(d["properties"]["borough"]);
+        //d3.select("#zone-id").html(loc_id);
+        d3.select("#zone-name").html(d["properties"]["zone"]+ " (" + d["properties"]["borough"]+")");
+        //d3.select("#borough").html(d["properties"]["borough"]);
         d3.select("#zone-chart").style("display", "block");
+;
 
         // draw line & bar chart to display supply & demand
         this.draw_supply_demand(loc_id);
@@ -37,8 +38,8 @@ class Zone_Stat {
         let chart = c3.generate({
             bindto: "#zone-supply-demand",
             size:{
-                width: 700,
-                height: 250
+                width: 550,
+                height: 200
             },
             data: {
                 json: supply_demand,
@@ -50,16 +51,16 @@ class Zone_Stat {
                     balance: 'bar'
                 },
                 colors: {
-                    supply: "#000099",
-                    demand: "#CC0066",
+                    supply: "#086fad",
+                    demand: "#ad081d",
                     balance: "gray"
                 },
                 color: function (color, d) {
                     if (d.id == "balance") {
                         if (d.value > 0)
-                            return "green";
+                            return "#ffb733"; 
                         else
-                            return "red";
+                            return "#ffedcc";
                     } else
                         return color;
                 }
@@ -83,10 +84,10 @@ class Zone_Stat {
             },
             grid: {
                 x: {
-                    show: false
+                    show: true
                 },
                 y: {
-                    show: true
+                    show: false
                 }
             }
         });
@@ -120,20 +121,20 @@ class Zone_Stat {
                 },
                 colors:{
                     total_amount: "#000099",
-                    fare_amount: "#FF7F0E",
-                    tip_amount: "#2C9F2C",
-                    mta_tax: "#D52628",
-                    tolls_amount: "#9467BD",
-                    extra: "#8C564C"
+                    fare_amount: "#ec7a80",
+                    tip_amount: "#ecc97a",
+                    mta_tax: "#9dec7a",
+                    tolls_amount: "#7a9dec",
+                    extra: "#c97aec"
                 },
                 groups:[["fare_amount", "tip_amount", "mta_tax", "tolls_amount", "extra"]]
             },
             grid: {
                 x: {
-                    show: false
+                    show: true
                 },
                 y: {
-                    show: true
+                    show: false
                 }
             },
             axis: {
@@ -171,12 +172,20 @@ class Zone_Stat {
                 keys: {
                     value: ["fare_amount", "tip_amount", "mta_tax", "tolls_amount", "extra"]
                 },
+                colors:{
+                    fare_amount: "#ec7a80",
+                    tip_amount: "#ecc97a",
+                    mta_tax: "#9dec7a",
+                    tolls_amount: "#7a9dec",
+                    extra: "#c97aec"
+                },
                 type: "donut",
                 onmouseover: function (d, i) {
                     d3.select("#zone-finance-pie .c3-chart-arcs-title").text(d3.format("$")(d.value));
                 },
                 onmouseout: function (d, i) {
                     d3.select("#zone-finance-pie .c3-chart-arcs-title").text("Finance");
+
                 }
             },
             donut: {
